@@ -3,12 +3,12 @@
     <div class="container">
       <div class="overlay">
         <div class="box">
-          <h2>مرحبا بك في بيتزا بلانت</h2>
+          <h2>مرحبا بك في بيتزا بلانيت</h2>
           <h3>جعان؟</h3>
           <button class="order-btn"><a href="/">اطلب دلوقتي</a></button>
         </div>
         <div class="box">
-          <img src="../../assets/images/pizaa.svg" alt="Pizaa" />
+          <img src="../assets/images/pizaa.svg" alt="Pizaa" />
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@ export default {
 
 <style scoped>
 .landing-area {
-  background-image: url("../../assets/images/dough.jpg");
+  background-image: url("../assets/images/dough.jpg");
   background-size: cover;
   height: 100vh;
   width: 100%;

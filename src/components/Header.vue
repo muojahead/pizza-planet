@@ -10,12 +10,13 @@
           <span></span>
           <span></span>
         </div>
+
         <nav :class="actClass">
           <div class="closer">
             <i class="fas fa-times"></i>
           </div>
           <div class="overlay" @click="closeMenu"></div>
-          <img src="../../assets/images/pizza-icon.svg" alt="pizza icon" />
+          <img src="../assets/images/pizza-icon.svg" alt="pizza icon" />
           <ul>
             <li><a href="/">الرئيسيه</a></li>
             <li><a href="/">القائمه</a></li>
@@ -23,17 +24,28 @@
             <li><a href="/about">من نحن؟ </a></li>
           </ul>
         </nav>
+        <div class="cart" @click="openCart">
+          <img src="../assets/images/cart.svg" alt="Cart" />
+          <span>{{ baskitItemsCount }}</span>
+        </div>
       </div>
+      <baskit v-if="baskitOn"></baskit>
     </div>
   </header>
 </template>
 <script>
+import baskit from "./Baskit.vue";
 export default {
   name: "appHeader",
+  components: {
+    baskit,
+  },
   data() {
     return {
       scrollValue: false,
       actClass: "",
+      baskitOn: false,
+      baskitItems: "",
     };
   },
   methods: {
@@ -47,6 +59,9 @@ export default {
     closeMenu() {
       this.actClass = "";
     },
+    openCart() {
+      this.baskitOn = !this.baskitOn;
+    },
   },
   computed: {
     onScrollEv() {
@@ -58,6 +73,9 @@ export default {
         }
       };
       return this.scrollValue;
+    },
+    baskitItemsCount() {
+      return this.baskitItems;
     },
   },
 };
@@ -207,6 +225,31 @@ header nav ul li {
   display: inline-block;
   padding: 10px;
   font-size: 20px;
+  position: relative;
+}
+header .cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0 5px;
+}
+header .cart img {
+  display: inline-block;
+  width: 30px;
+  cursor: pointer;
+}
+header .cart span {
+  position: absolute;
+  top: -8px;
+  right: -30px;
+  background-color: #8a0000;
+  color: #fff;
+  border-radius: 50%;
+  height: auto;
+  width: auto;
+  font-size: 14px;
+  padding: 0 4px;
 }
 header nav ul li a {
   text-decoration: none;
@@ -224,7 +267,7 @@ header nav ul li a:hover,
 header nav ul li a.active {
   border-bottom-color: #f77700;
 }
-@media (max-width: 604px) {
+@media (max-width: 644px) {
   header .header_logo {
     width: 90%;
   }

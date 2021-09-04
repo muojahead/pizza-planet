@@ -2,17 +2,19 @@
   <div>
     <app-header></app-header>
     <landing-area></landing-area>
+    <menu-list></menu-list>
   </div>
 </template>
 
 <script>
-import appHeader from "./components/Layout/Header.vue";
-import landingArea from "./components/pages/HomePage.vue";
-
+import appHeader from "./components/Header.vue";
+import menuList from "./components/Menu.vue";
+import landingArea from "./components/LandingArea.vue";
 export default {
   components: {
     appHeader,
     landingArea,
+    menuList,
   },
 };
 </script>
