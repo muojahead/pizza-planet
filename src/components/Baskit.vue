@@ -123,7 +123,7 @@ export default {
   position: fixed;
   top: 50%;
   border-radius: 15px;
-  left: 50%;
+  left: 48%;
   transform: translate(-50%, -50%);
   background-color: #e77700;
   padding: 10px 30px;
