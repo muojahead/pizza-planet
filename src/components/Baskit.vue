@@ -1,5 +1,5 @@
 <template>
-  <div :class="cartHasData ? 'baskit hasData' : 'baskit'" v-if="closeCart">
+  <div :class="cartHasData ? 'baskit hasData' : 'baskit'">
     <div class="deleter" @click="closeBaskit">+</div>
     <div class="contain">
       <div class="title-bs">
@@ -41,7 +41,7 @@
         يرجي اضافة طلبات من القائمه، <a href="/menu">الذهاب الي القائمه؟</a>
       </div>
     </div>
-    <di v class="dialog" v-if="deleteItemAlert">
+    <div class="dialog" v-if="deleteItemAlert">
       <div class="box">
         <div class="msg">هل تريد حذف الطلب؟</div>
         <div class="actions">
@@ -49,7 +49,7 @@
           <button class="add dis" @click="deleteItemNot">لا</button>
         </div>
       </div>
-    </di>
+    </div>
   </div>
 </template>
 <script>
