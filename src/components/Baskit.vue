@@ -1,5 +1,6 @@
 <template>
-  <div :class="cartHasData ? 'baskit hasData' : 'baskit'">
+  <div :class="cartHasData ? 'baskit hasData' : 'baskit'" v-if="closeCart">
+    <div class="deleter" @click="closeBaskit">+</div>
     <div class="contain">
       <div class="title-bs">
         <h2>السله</h2>
@@ -40,20 +41,49 @@
         يرجي اضافة طلبات من القائمه، <a href="/menu">الذهاب الي القائمه؟</a>
       </div>
     </div>
+    <di v class="dialog" v-if="deleteItemAlert">
+      <div class="box">
+        <div class="msg">هل تريد حذف الطلب؟</div>
+        <div class="actions">
+          <button class="add" @click="deleteItemOkay">نعم</button>
+          <button class="add dis" @click="deleteItemNot">لا</button>
+        </div>
+      </div>
+    </di>
   </div>
 </template>
 <script>
 export default {
+  props: ["closeCart"],
   data() {
     return {
       cart: [],
       cartHight: true,
+      deleteItemAlert: false,
+      deleteOkay: false,
     };
   },
   methods: {
     deleteItem(id) {
-      const newCart = this.cart.filter((item) => item.id !== id);
-      this.cart = newCart;
+      const userDeleted = this.cart.filter((item) => item.id !== id);
+      this.deleteItemAlert = true;
+      if (this.deleteOkay) {
+        this.$store.state.cart.splice(userDeleted, 1);
+        this.deleteOkay = false;
+        return;
+      } else {
+        return false;
+      }
+    },
+    deleteItemOkay() {
+      this.deleteOkay = true;
+      this.deleteItem();
+      this.deleteItemAlert = false;
+    },
+    deleteItemNot() {
+      this.deleteOkay = false;
+      this.deleteItem();
+      this.deleteItemAlert = false;
     },
     getCartData() {
       this.cart = this.$store.state.cart;
@@ -66,6 +96,9 @@ export default {
         price += now;
       }
       return price;
+    },
+    closeBaskit() {
+      this.closeBaskit = !this.closeBaskit;
     },
     cartHasData() {
       if (this.$store.state.cart.length >= 2) {
@@ -89,6 +122,7 @@ export default {
   min-width: 280px;
   position: fixed;
   top: 50%;
+  border-radius: 15px;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #e77700;
@@ -235,6 +269,27 @@ export default {
   -webkit-transform: rotate(47deg);
   -o-transform: rotate(47deg);
   -moz-transform: rotate(47deg);
+}
+.baskit .dialog {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.233);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.baskit .dialog .box {
+  transform: translate(-50, -50%);
+  -webkit-transform: translate(-50, -50%);
+  -o-transform: translate(-50, -50%);
+  -moz-transform: translate(-50, -50%);
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.164);
 }
 @media (max-width: 450px) {
   .baskit {
