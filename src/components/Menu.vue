@@ -6,14 +6,18 @@
     </div>
     <div class="row">
       <div class="menu">
-        <div class="card" v-for="item in items" :key="item.name">
+        <div class="card" v-for="item in getItemsData" :key="item.name">
           <div class="details">
             <h3 class="name">{{ item.name }}</h3>
             <p class="dic">
               {{ item.description }}
             </p>
             <div class="options">
-              <div class="row" v-for="option in item.options" :key="option">
+              <div
+                class="row"
+                v-for="option in item.options"
+                :key="option.price"
+              >
                 <p>
                   <button class="add" @click="addToCart(item, option)">
                     اضف الي السله
@@ -36,69 +40,24 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      cart: [],
-      items: {
-        1: {
-          name: "Margherita",
-          description: "بيتزا لذيذة من الطماطم مغطاة بجبنة الموزاريلا ",
-          options: [
-            {
-              size: 9,
-              price: 6,
-            },
-            {
-              size: 12,
-              price: 10,
-            },
-          ],
-        },
-        2: {
-          name: "Pepperoni",
-          description:
-            "بيتزا لذيذة  من الطماطم مغطاة بجبنة الموزاريلا والبيبروني ",
-          options: [
-            {
-              size: 9,
-              price: 7,
-            },
-            {
-              size: 12,
-              price: 12,
-            },
-          ],
-        },
-        3: {
-          name: "Ham and Pineapple",
-          description:
-            "بيتزا لذيذة من الطماطم مغطاة بجبنة الموزاريلا ولحم الماعز والأناناس ",
-          options: [
-            {
-              size: 9,
-              price: 7,
-            },
-            {
-              size: 12,
-              price: 12,
-            },
-          ],
-        },
-      },
-    };
+  computed: {
+    getItemsData() {
+      return this.$store.state.items;
+    },
   },
   methods: {
-    async addToCart(item, opt) {
-      const pizzaExist = await this.cart.find(
+    addToCart(item, opt) {
+      const pizzaExist = this.$store.state.cart.find(
         (pizza) => pizza.name === item.name && pizza.size === opt.size
       );
       if (pizzaExist) {
         pizzaExist.qyt++;
         return;
       }
-      this.cart.push({
+      this.$store.state.cart.push({
+        id: Math.random() * 100000,
         name: item.name,
-        price: item.price,
+        price: opt.price,
         size: opt.size,
         description: item.description,
         qyt: 1,

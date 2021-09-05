@@ -26,7 +26,7 @@
         </nav>
         <div class="cart" @click="openCart">
           <img src="../assets/images/cart.svg" alt="Cart" />
-          <span>{{ baskitItemsCount }}</span>
+          <span v-if="baskitItemsCount">{{ baskitItemsCount }}</span>
         </div>
       </div>
       <baskit v-if="baskitOn"></baskit>
@@ -63,6 +63,7 @@ export default {
       this.baskitOn = !this.baskitOn;
     },
   },
+
   computed: {
     onScrollEv() {
       window.onscroll = () => {
@@ -75,7 +76,11 @@ export default {
       return this.scrollValue;
     },
     baskitItemsCount() {
-      return this.baskitItems;
+      if (this.$store.state.cart.length == 0) {
+        return;
+      } else {
+        return this.$store.state.cart.length;
+      }
     },
   },
 };
@@ -233,6 +238,7 @@ header .cart {
   align-items: center;
   height: 100%;
   margin: 0 5px;
+  position: relative;
 }
 header .cart img {
   display: inline-block;
@@ -241,15 +247,19 @@ header .cart img {
 }
 header .cart span {
   position: absolute;
-  top: -8px;
-  right: -30px;
+  top: 19px;
+  right: -8px;
   background-color: #8a0000;
   color: #fff;
   border-radius: 50%;
+  min-height: 20px;
+  min-width: 25px;
   height: auto;
-  width: auto;
-  font-size: 14px;
-  padding: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  user-select: none;
+  cursor: pointer;
 }
 header nav ul li a {
   text-decoration: none;
