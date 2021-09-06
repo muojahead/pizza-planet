@@ -24,12 +24,12 @@
             <li><a href="/about">من نحن؟ </a></li>
           </ul>
         </nav>
-        <div class="cart" @click="openCart">
+        <div class="cart" @click="openAndCloseCart">
           <img src="../assets/images/cart.svg" alt="Cart" />
           <span v-if="baskitItemsCount">{{ baskitItemsCount }}</span>
         </div>
       </div>
-      <baskit v-if="baskitOn"></baskit>
+      <baskit v-if="baskitOn" @close-cart="openAndCloseCart"></baskit>
     </div>
   </header>
 </template>
@@ -59,7 +59,7 @@ export default {
     closeMenu() {
       this.actClass = "";
     },
-    openCart() {
+    openAndCloseCart() {
       this.baskitOn = !this.baskitOn;
     },
   },

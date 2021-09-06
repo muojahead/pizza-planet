@@ -21,6 +21,18 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;300;400;500;600&display=swap");
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #00000049;
+}
+::-webkit-scrollbar-thumb {
+  background: #e77700;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e77700;
+}
 * {
   padding: 0;
   margin: 0;

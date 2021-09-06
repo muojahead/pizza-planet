@@ -1,52 +1,61 @@
 <template>
-  <div :class="cartHasData ? 'baskit hasData' : 'baskit'">
-    <div class="deleter" @click="closeBaskit">+</div>
-    <div class="contain">
+  <div class="overlay">
+    <div :class="cartHasData() ? 'baskit hasData' : 'baskit'">
+      <div class="deleter" @click="closeBaskit">+</div>
       <div class="title-bs">
         <h2>السله</h2>
       </div>
-      <div class="card" v-for="item in cart" :key="item.name">
-        <div class="deleter" :id="item.id" @click="deleteItem(item.id)">+</div>
-        <div class="details">
-          <img src="../assets/images/pizza-icon.svg" alt="order-iamge" />
-          <div class="center">
-            <h3>{{ item.name }}</h3>
+      <div class="contain">
+        <div class="card" v-for="item in cart" :key="item.name">
+          <div class="deleter" :id="item.id" @click="deleteItem(item.id)">
+            +
+          </div>
+          <div class="details">
+            <img src="../assets/images/pizza-icon.svg" alt="order-iamge" />
+            <div class="center">
+              <h3>{{ item.name }}</h3>
+              <p>
+                {{ item.description }}
+              </p>
+            </div>
             <p>
-              {{ item.description }}
+              الحجم :<span> {{ item.size }}</span>
             </p>
           </div>
+          <div class="actions">
+            <div class="price">
+              <span>السعر: {{ item.price * item.qyt }} جنيه </span>
+            </div>
+            <div class="add-remove">
+              <button class="add" @click="item.qyt++">+</button>
+              <span>{{ item.qyt }}</span>
+              <button
+                class="add dis"
+                @click="item.qyt <= 1 ? deleteItem(item.id) : item.qyt--"
+              >
+                -
+              </button>
+              :العدد
+            </div>
+          </div>
+        </div>
+        <div class="done" v-if="cart.length">
+          <button class="add">اتمام عملية الشراء</button>
           <p>
-            الحجم :<span> {{ item.size }}</span>
+            السعر النهائي: <span>{{ getPrices() }}</span> جنيه
           </p>
         </div>
-        <div class="actions">
-          <div class="price">
-            <span>السعر: {{ item.price * item.qyt }} جنيه </span>
-          </div>
-          <div class="add-remove">
-            <button class="add" @click="item.qyt + 1">+</button>
-            <span>{{ item.qyt }}</span>
-            <button class="add dis" @click="item.qyt - 1">-</button>
-            :العدد
-          </div>
+        <div class="no-data" v-else>
+          يرجي اضافة طلبات من القائمه<a href="/menu">الذهاب الي القائمه؟</a>
         </div>
       </div>
-      <div class="done" v-if="cart.length">
-        <button class="add">اتمام عملية الشراء</button>
-        <p>
-          السعر النهائي: <span>{{ getPrices() }}</span> جنيه
-        </p>
-      </div>
-      <div class="no-data" v-else>
-        يرجي اضافة طلبات من القائمه، <a href="/menu">الذهاب الي القائمه؟</a>
-      </div>
-    </div>
-    <div class="dialog" v-if="deleteItemAlert">
-      <div class="box">
-        <div class="msg">هل تريد حذف الطلب؟</div>
-        <div class="actions">
-          <button class="add" @click="deleteItemOkay">نعم</button>
-          <button class="add dis" @click="deleteItemNot">لا</button>
+      <div class="dialog" v-if="deleteItemAlert">
+        <div class="box">
+          <div class="msg">هل تريد حذف الطلب؟</div>
+          <div class="actions">
+            <button class="add" @click="deleteItemOkay">نعم</button>
+            <button class="add dis" @click="deleteItemNot">لا</button>
+          </div>
         </div>
       </div>
     </div>
@@ -54,11 +63,10 @@
 </template>
 <script>
 export default {
-  props: ["closeCart"],
   data() {
     return {
       cart: [],
-      cartHight: true,
+      cartHight: false,
       deleteItemAlert: false,
       deleteOkay: false,
     };
@@ -75,6 +83,9 @@ export default {
         return false;
       }
     },
+    closeCartFunc() {
+      this.closeCart = !this.closeCart;
+    },
     deleteItemOkay() {
       this.deleteOkay = true;
       this.deleteItem();
@@ -85,6 +96,7 @@ export default {
       this.deleteItem();
       this.deleteItemAlert = false;
     },
+
     getCartData() {
       this.cart = this.$store.state.cart;
       return this.cart;
@@ -98,13 +110,13 @@ export default {
       return price;
     },
     closeBaskit() {
-      this.closeBaskit = !this.closeBaskit;
+      this.$emit("close-cart");
     },
     cartHasData() {
-      if (this.$store.state.cart.length >= 2) {
-        this.cartHight = false;
-      } else {
+      if (this.cart.length >= 2) {
         this.cartHight = true;
+      } else {
+        this.cartHight = false;
       }
       return this.cartHight;
     },
@@ -122,13 +134,25 @@ export default {
   min-width: 280px;
   position: fixed;
   top: 50%;
-  border-radius: 15px;
   left: 48%;
   transform: translate(-50%, -50%);
   background-color: #e77700;
   padding: 10px 30px;
+}
+.baskit .contain {
   overflow-y: auto;
   height: auto;
+}
+.baskit.hasData .contain {
+  height: 70vh;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.219);
 }
 .baskit .card,
 .baskit .no-data {
@@ -252,6 +276,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #fff;
 }
 .baskit .done .add:hover {
   background-color: #fff;
