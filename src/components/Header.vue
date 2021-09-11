@@ -1,5 +1,5 @@
 <template>
-  <header :class="onScrollEv ? 'scrolling' : ''">
+  <header :class="onScrollEv ? 'scrolling' : ''" id="header">
     <div class="container">
       <div class="header-box">
         <div class="header_logo">
@@ -34,6 +34,11 @@
   </header>
 </template>
 <script>
+window.onload = () => {
+  if (window.scrollY <= 50) {
+    document.getElementById("header").style.backgroundColor = "#fff";
+  }
+};
 import baskit from "./Baskit.vue";
 export default {
   name: "appHeader",

@@ -8,7 +8,7 @@
       <div class="contain">
         <div class="card" v-for="item in cart" :key="item.name">
           <div class="deleter" :id="item.id" @click="deleteItem(item.id)">
-            +
+            <img src="../assets/images/delete.svg" alt="" />
           </div>
           <div class="details">
             <img src="../assets/images/pizza-icon.svg" alt="order-iamge" />
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="done" v-if="cart.length">
-          <button class="add">اتمام عملية الشراء</button>
+          <button class="add" @click="checkout">اتمام عملية الشراء</button>
           <p>
             السعر النهائي: <span>{{ getPrices() }}</span> جنيه
           </p>
@@ -58,6 +58,14 @@
           </div>
         </div>
       </div>
+      <div class="dialog" v-if="checkoutDone">
+        <div class="box">
+          <div class="msg">
+            تم استلام طلبك شكرا لك لأستخدامك موقعنا، ستصلك مكالمه تأكيديه برجاء
+            ابقاء الهاتف مفتوحا وقريبا منك
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -69,6 +77,7 @@ export default {
       cartHight: false,
       deleteItemAlert: false,
       deleteOkay: false,
+      checkoutDone: false,
     };
   },
   methods: {
@@ -82,6 +91,12 @@ export default {
       } else {
         return false;
       }
+    },
+    checkoutِAlert() {
+      this.checkoutDone = true;
+      setTimeout(() => {
+        this.checkoutDone = false;
+      }, 7000);
     },
     closeCartFunc() {
       this.closeCart = !this.closeCart;
@@ -120,6 +135,15 @@ export default {
       }
       return this.cartHight;
     },
+    checkout() {
+      console.log(this.cart);
+      const order = {
+        id: Math.floor(Math.random() * 50000),
+        details: this.cart,
+      };
+      this.$store.state.orders.push(order);
+      this.checkoutِAlert();
+    },
   },
   created() {
     this.cart = this.$store.state.cart;
@@ -136,8 +160,11 @@ export default {
   top: 50%;
   left: 48%;
   transform: translate(-50%, -50%);
-  background-color: #e77700;
+  background-color: #fff;
   padding: 10px 30px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+  border-radius: 10px;
 }
 .baskit .contain {
   overflow-y: auto;
@@ -145,6 +172,15 @@ export default {
 }
 .baskit.hasData .contain {
   height: 70vh;
+}
+.baskit .contain .card .deleter {
+  transform: rotate(0);
+  -webkit-transform: rotate(0);
+  -moz-transform: rotate(0);
+  -o-transform: rotate(0);
+}
+.baskit .contain .card .deleter img {
+  width: 25px !important;
 }
 .overlay {
   position: fixed;
@@ -165,7 +201,9 @@ export default {
   align-items: center;
   margin: 10px auto;
   background-color: #fff;
+  border: 2px solid #e77700;
   position: relative;
+  margin-right: 3px;
 }
 .baskit .card img {
   width: 100px;
@@ -201,7 +239,7 @@ export default {
   border: 2px solid transparent;
   background-color: #e77700;
   padding: 4px 10px;
-  color: #fff;
+  color: #fff !important;
   border-radius: 10px;
   font-weight: bold;
   text-align: center;
@@ -209,6 +247,13 @@ export default {
   -webkit-transition: 0.3s linear;
   -o-transition: 0.3s linear;
   -moz-transition: 0.3s linear;
+}
+.baskit .price * {
+  color: #fff;
+  transition: 0.3s linear;
+}
+.baskit .price:hover * {
+  color: #000;
 }
 .baskit .price:hover {
   border-color: #e77700;
@@ -271,29 +316,22 @@ export default {
   display: block;
 }
 .baskit .done {
-  width: 100%;
-  margin: 20px auto;
+  width: 99%;
+  margin: 10px 3px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #e77700;
+  padding: 5px;
+  border-radius: 5px;
+}
+.baskit .done * {
   color: #fff;
 }
 .baskit .done .add:hover {
   background-color: #fff;
   color: #e77700;
   border-color: #e77700;
-}
-.baskit .deleter {
-  position: absolute;
-  top: -5px;
-  left: 10px;
-  user-select: none;
-  cursor: pointer;
-  font-size: 40px;
-  transform: rotate(47deg);
-  -webkit-transform: rotate(47deg);
-  -o-transform: rotate(47deg);
-  -moz-transform: rotate(47deg);
 }
 .baskit .dialog {
   position: absolute;
