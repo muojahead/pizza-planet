@@ -302,6 +302,12 @@ export default {
     const data = this.$store.state.items;
     this.itemsPublished = data;
   },
+  watch: {
+    $route() {
+      const data = this.$store.state.items;
+      this.itemsPublished = data;
+    },
+  },
 };
 </script>
 <style scoped>

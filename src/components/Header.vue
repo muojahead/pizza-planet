@@ -18,8 +18,9 @@
           <div class="overlay" @click="closeMenu"></div>
           <img src="../assets/images/pizza-icon.svg" alt="pizza icon" />
           <ul>
-            <li><a href="/">الرئيسيه</a></li>
-            <li><a href="/">القائمه</a></li>
+            <li><router-link to="/home">الرئيسيه</router-link></li>
+            <li><router-link to="/menu">القائمه</router-link></li>
+            <li><router-link to="/dashboard">لوح التحكم</router-link></li>
             <li><a href="/contact">اتصل بنا</a></li>
             <li><a href="/about">من نحن؟ </a></li>
           </ul>
@@ -98,7 +99,7 @@ header {
   -o-transition: 0.3s linear;
   -moz-transition: 0.3s linear;
   z-index: 1000;
-  background-color: transparent;
+  background-color: #fff;
   position: fixed;
   top: 0;
   width: 100%;
@@ -260,6 +261,7 @@ header .cart span {
   min-height: 20px;
   min-width: 25px;
   height: auto;
+
   display: flex;
   justify-content: center;
   align-content: center;
@@ -268,7 +270,7 @@ header .cart span {
 }
 header nav ul li a {
   text-decoration: none;
-  color: #fff;
+  color: #000;
   transition: 0.3s linear;
   -webkit-transition: 0.3s linear;
   -moz-transition: 0.3s linear;

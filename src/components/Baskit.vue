@@ -46,7 +46,11 @@
           </p>
         </div>
         <div class="no-data" v-else>
-          يرجي اضافة طلبات من القائمه<a href="/menu">الذهاب الي القائمه؟</a>
+          يرجي اضافة طلبات من القائمه<router-link
+            to="/menu"
+            @click="closeBaskit"
+            >الذهاب الي القائمه؟</router-link
+          >
         </div>
       </div>
       <div class="dialog" v-if="deleteItemAlert">
@@ -147,6 +151,11 @@ export default {
   },
   created() {
     this.cart = this.$store.state.cart;
+  },
+  watch: {
+    $route() {
+      this.cart = this.$store.state.cart;
+    },
   },
 };
 </script>

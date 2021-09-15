@@ -1,23 +1,18 @@
 <template>
   <div>
     <app-header></app-header>
-    <landing-area></landing-area>
-    <menu-list></menu-list>
-    <admin-page></admin-page>
+    <router-view></router-view>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import appHeader from "./components/Header.vue";
-import menuList from "./components/Menu.vue";
-import landingArea from "./components/LandingArea.vue";
-import adminPage from "./components/Admin.vue";
+import appFooter from "./components/Footer.vue";
 export default {
   components: {
     appHeader,
-    landingArea,
-    menuList,
-    adminPage,
+    appFooter,
   },
 };
 </script>
@@ -53,7 +48,7 @@ input[type="number"]::-o-inner-spin-button {
   color: #2c3e50;
 }
 body {
-  height: 4000px;
+  padding-top: 80px;
 }
 .container {
   max-width: 1200px;

@@ -1,38 +1,40 @@
 <template>
-  <div class="container">
+  <div>
     <div class="title">
       <h2>قائمة المأكولات</h2>
       <p>عالم رائع من المأكولات الشهيه</p>
     </div>
-    <div class="row">
-      <div class="menu">
-        <div class="card" v-for="item in getItemsData" :key="item.name">
-          <div class="details">
-            <h3 class="name">{{ item.name }}</h3>
-            <p class="dic">
-              {{ item.description }}
-            </p>
-            <div class="options">
-              <div
-                class="row"
-                v-for="option in item.options"
-                :key="option.price"
-              >
-                <p>
-                  <button class="add" @click="addToCart(item, option)">
-                    اضف الي السله
-                  </button>
-                </p>
-                <p>
-                  السعر:<span>{{ option.price }} جنيه</span>
-                </p>
-                <p>
-                  الحجم: <span>{{ option.size }}</span>
-                </p>
+    <div class="container">
+      <div class="row">
+        <div class="menu">
+          <div class="card" v-for="item in getItemsData" :key="item.name">
+            <div class="details">
+              <h3 class="name">{{ item.name }}</h3>
+              <p class="dic">
+                {{ item.description }}
+              </p>
+              <div class="options">
+                <div
+                  class="row"
+                  v-for="option in item.options"
+                  :key="option.price"
+                >
+                  <p>
+                    <button class="add" @click="addToCart(item, option)">
+                      اضف الي السله
+                    </button>
+                  </p>
+                  <p>
+                    السعر:<span>{{ option.price }} جنيه</span>
+                  </p>
+                  <p>
+                    الحجم: <span>{{ option.size }}</span>
+                  </p>
+                </div>
               </div>
             </div>
+            <img src="../assets/images/pizza-icon.svg" alt="Pizza Photo" />
           </div>
-          <img src="../assets/images/pizza-icon.svg" alt="Pizza Photo" />
         </div>
       </div>
     </div>
@@ -69,6 +71,14 @@ export default {
 <style scoped>
 .title {
   padding: 100px 0 50px 0;
+  text-align: center;
+  background-image: url("../assets/images/dough.jpg");
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 50px;
+}
+.title * {
+  color: #000;
 }
 .row .menu {
   width: 100%;
@@ -90,7 +100,7 @@ export default {
   margin: 10px auto;
 }
 .row .menu .card {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.048);
+  border: 1px solid #e77700;
   padding: 10px;
   border-radius: 10px;
   display: flex;
@@ -103,7 +113,7 @@ export default {
   flex-direction: column-reverse;
 }
 .row .menu .card:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.068);
+  box-shadow: 0 0 5px #e7770059;
 }
 .row .menu .card img {
   width: 120px;
