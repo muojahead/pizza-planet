@@ -43,6 +43,11 @@ footer .boxs {
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
+@media (max-width: 750px) {
+  footer .boxs {
+    display: block;
+  }
+}
 footer .boxs .box ul {
   list-style: none;
 }

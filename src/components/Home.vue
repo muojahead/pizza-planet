@@ -161,4 +161,9 @@
 .content .boxs .box p {
   margin-top: 10px;
 }
+@media (max-width: 750px) {
+  .content .boxs {
+    display: block;
+  }
+}
 </style>
